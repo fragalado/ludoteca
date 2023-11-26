@@ -1,0 +1,24 @@
+<form>
+    <div class="mb-3">
+        <label for="juego" class="form-label">Juego</label>
+        <select id="usuario" class="form-select" [(ngModel)]="alquiler.juego" name="selectJuegos">
+            <option *ngFor="let juego of juegos" [ngValue]="juego">{{juego.nombreJuego}}</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="usuario" class="form-label">Usuario</label>
+        <select id="usuario" class="form-select" [(ngModel)]="alquiler.usuario" name="selectUsuarios">
+            <option *ngFor="let usuario of usuarios" [ngValue]="usuario">{{usuario.nombre}} {{usuario.apellidos}}</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="fechaInicio" class="form-label">Fecha Inicio</label>
+        <input type="date" id="fechaInicio" [(ngModel)]="alquiler.fechaInicio" name="fechaInicio">
+    </div>
+    <div class="mb-3">
+        <label for="fechaFin" class="form-label">Fecha Inicio</label>
+        <input type="date" id="fechaFin" [(ngModel)]="alquiler.fechaFin" name="fechaFin">
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="enviarDatos()" routerLink="/alquileres/listado">Enviar</button>
+    <button type="button" class="btn btn-secondary" style="float: right;" routerLink="/alquileres/listado">Volver</button>
+</form>

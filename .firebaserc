@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ludoteca-gfa": {
+      "hosting": {
+        "ludoteca": [
+          "ludoteca-gfa"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ludoteca-gfa"
+  }
+}

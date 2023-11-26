@@ -1,0 +1,34 @@
+<div class="row" *ngIf="alquileres">
+    <div class="col">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Juego</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Fecha Inicio</th>
+                    <th scope="col">Fecha Fin</th>
+                    <th scope="col">Del/Add</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let alquiler of alquileres; let i= index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{alquiler.juego.nombreJuego}}</td>
+                    <td>{{alquiler.usuario.nombre}} {{alquiler.usuario.apellidos}}</td>
+                    <td>{{alquiler.fechaInicio}}</td>
+                    <td>{{alquiler.fechaFin}}</td>
+                    <td>
+                        <i class="bi bi-trash text-danger" style="margin-left: 6px;" (click)="deleteAlquiler(alquiler)"></i>
+                        <i class="bi bi-pencil-square text-success" style="margin-left: 16px;" routerLink="/alquileres/detalle/{{alquiler.id}}"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col text-center m-3">
+        <button type="button" class="btn btn-primary" routerLink="/alquileres/agregar">Añadir</button>
+    </div>
+</div>

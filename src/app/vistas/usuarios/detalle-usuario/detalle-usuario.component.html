@@ -1,0 +1,16 @@
+<form *ngIf="usuario">
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre" [(ngModel)]="usuario.nombre" name="nombre">
+    </div>
+    <div class="mb-3">
+        <label for="apellidos" class="form-label">Apellidos</label>
+        <input type="text" class="form-control" id="apellidos" [(ngModel)]="usuario.apellidos" name="apellidos">
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="text" class="form-control" id="email" [(ngModel)]="usuario.email" name="email">
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="actualizaUsuario()" routerLink="/usuarios/listado">Cambiar</button>
+    <button type="button" class="btn btn-secondary" style="float: right;" routerLink="/usuarios/listado">Volver</button>
+</form>

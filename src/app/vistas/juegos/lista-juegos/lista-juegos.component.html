@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-4" style="margin-top: 15px;" *ngFor="let juego of juegos">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="{{juego.urlImagen}}" alt="Imagen del juego {{juego.nombreJuego}}">
+            <div class="card-body text-center">
+                <h5 class="card-title">{{juego.nombreJuego}}</h5>
+                <i class="bi bi-trash text-danger" style="margin-right: 5px;" (click)="deleteJuego(juego)"></i>
+                <i class="bi bi-pencil-square text-success" routerLink="/juegos/detalle/{{juego.id}}"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col text-center">
+        <button type="button" class="btn btn-primary" style="margin-top: 15px; margin-bottom: 15px;" routerLink="/juegos/agregar">Añadir</button>
+    </div>
+</div>

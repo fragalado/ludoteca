@@ -1,0 +1,12 @@
+<form>
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre Juego</label>
+        <input type="text" class="form-control" id="nombre" [(ngModel)]="juego.nombreJuego" name="nombre" required>
+    </div>
+    <div class="mb-3">
+        <label for="imagen" class="form-label">Url Imagen</label>
+        <input type="text" class="form-control" id="imagen" [(ngModel)]="juego.urlImagen" name="imagen" required>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="enviaDatos()" routerLink="/juegos/listado">Enviar</button>
+    <button type="button" class="btn btn-secondary" style="float: right;" routerLink="/juegos/listado">Volver</button>
+</form>
