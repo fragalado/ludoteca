@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Alquiler, DatosAlquiler } from 'src/app/modelos/alquiler';
+import { Juego } from 'src/app/modelos/juego';
+import { Usuario } from 'src/app/modelos/usuario';
 import { FirebaseService } from 'src/app/servicios/firebase.service';
 import Swal from "sweetalert2";
 
@@ -10,10 +12,12 @@ import Swal from "sweetalert2";
 })
 export class ListaAlquileresComponent {
   alquileres: Alquiler[] = []; // Variable donde guardaremos los alquileres
-  alquiler?: Alquiler; // Variable para crear objetos de tipo Alquiler
+  //alquiler?: Alquiler; // Variable para crear objetos de tipo Alquiler
   alquileresString?: any[]; // Variable donde almacenaremos los alquileres de la base de datos
+  juegos?: Juego[];
+  usuarios?: Usuario[];
 
-  constructor(private fbs: FirebaseService) {}
+  constructor(private fbs: FirebaseService) { }
 
   ngOnInit() {
     this.obtieneAlquiler();
@@ -23,46 +27,56 @@ export class ListaAlquileresComponent {
   // En la base de datos tendremos idJuego, idUsuario, fechaInicio y fechaFin
   // El método obtendrá el juego que tenga ese id y el usuario que tenga el id
   obtieneAlquiler() {
-    // Limpiamos la lista alquileres
-    this.alquileres = [];
-
     // Obtenemos los alquileres de la base de datos
     this.fbs.getFireBase('alquileres').subscribe((res) => {
       // Guardamos los alquileres en alquileresString
       // Aqui tendremos idUsuario:string y idJuego:string
       this.alquileresString = res;
 
-      // Ahora vamos a recorrer alquileresString
-      this.alquileresString.forEach((element: DatosAlquiler) => {
-        // Obtenemos el juego según el id
-        this.fbs
-          .getFireBasePorId('juegos', element.idJuego)
-          .subscribe((dataJuego) => {
-            // Guardamos el juego en la constante juego
-            const juego = dataJuego;
+      this.fbs.getFireBase("juegos").subscribe((res2) => {
+        this.juegos = res2;
 
-            // Hacemos lo mismo para usuario
-            this.fbs
-              .getFireBasePorId('usuarios', element.idUsuario)
-              .subscribe((dataUsuario) => {
-                // Guardamos el usuario en la constante usuario
-                const usuario = dataUsuario;
+        this.fbs.getFireBase("usuarios").subscribe((res3) => {
+          this.usuarios = res3;
 
-                // Ahora creamos un objeto alquiler con los datos
-                this.alquiler = {
-                  id: element.id,
-                  juego: juego,
-                  usuario: usuario,
-                  fechaInicio: element.fechaInicio,
-                  fechaFin: element.fechaFin,
-                };
+          // Limpiamos la lista alquileres
+          this.alquileres = [];
 
-                // Por ultimo
-                // Lo añadimos a la lista alquileres
-                this.alquileres.push(this.alquiler);
-              });
-          });
-      });
+          // Ahora recorremos la lista alquileres
+          this.alquileresString?.forEach((alquiler) => {
+
+            var juegoGuardado: Juego = { nombreJuego: "", urlImagen: "" };
+            var usuarioGuardado: Usuario = { nombre: "", apellidos: "", email: "" };
+
+            // Recorremos los juegos y buscamos el idJuego del alquiler
+            this.juegos?.forEach((juego) => {
+              if (alquiler.idJuego == juego.id) {
+                juegoGuardado = juego;
+              }
+            })
+
+            // Recorremos los usuarios y buscamos el idUsuario del alquiler
+            this.usuarios?.forEach((usuario) => {
+              if (usuario.id == alquiler.idUsuario)
+                usuarioGuardado = usuario;
+            })
+
+            // Comprabamos si existe id en juegoGuardado y usuarioGuardado
+            if (juegoGuardado.id && usuarioGuardado.id) {
+              // Ahora creamos un alquiler y lo guardamos en la lista alquileres
+              const alquilerDatos: Alquiler = {
+                id: alquiler.id,
+                fechaFin: alquiler.fechaFin,
+                fechaInicio: alquiler.fechaInicio,
+                juego: juegoGuardado,
+                usuario: usuarioGuardado,
+              }
+
+              this.alquileres.push(alquilerDatos);
+            }
+          })
+        })
+      })
     });
   }
 
